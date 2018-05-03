@@ -1,0 +1,23 @@
+{
+  "name": "commleads",
+  "version": "1.0.0",
+  "description": "Chatbot qui fait la Marketting de site Commleads.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Noujoud Boushila",
+  "license": "ISC",
+  "dependencies": {
+    "apiai": "^4.0.3",
+    "botbuilder": "^3.14.1",
+    "express": "^4.16.3",
+    "request": "^2.85.0",
+    "restify": "^7.1.1",
+    "socket.io": "^2.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/noujoudb/commleads"
+  }
+}

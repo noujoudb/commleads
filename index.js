@@ -16,7 +16,7 @@ express()
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
   
   
-  
+  /****************************************************************************************************************************************/
 
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -48,3 +48,69 @@ app.get('/webhook/', function (req, res) {
 app.listen(app.get('port'), function() {
 	console.log('running on port', app.get('port'))
 })
+
+
+  /****************************************************************************************************************************************/
+  
+ 
+  app.get('/times', (req, res) => {
+  let result = ''
+  const times = process.env.TIMES || 5
+  for (i = 0; i < times; i++) {
+    result += i + ' '
+  }
+  res.send(result)
+})
+
+
+  /****************************************************************************************************************************************/
+ 
+ 
+ function sendGenericMessage(sender) {
+    let messageData = {
+	    "attachment": {
+		    "type": "template",
+		    "payload": {
+				"template_type": "generic",
+			    "elements": [{
+					"title": "First card",
+				    "subtitle": "Element #1 of an hscroll",
+				    "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
+				    "buttons": [{
+					    "type": "web_url",
+					    "url": "https://www.messenger.com",
+					    "title": "web url"
+				    }, {
+					    "type": "postback",
+					    "title": "Postback",
+					    "payload": "Payload for first element in a generic bubble",
+				    }],
+			    }, {
+				    "title": "Second card",
+				    "subtitle": "Element #2 of an hscroll",
+				    "image_url": "http://messengerdemo.parseapp.com/img/gearvr.png",
+				    "buttons": [{
+					    "type": "postback",
+					    "title": "Postback",
+					    "payload": "Payload for second element in a generic bubble",
+				    }],
+			    }]
+		    }
+	    }
+    }
+    request({
+	    url: 'https://graph.facebook.com/v2.6/me/messages',
+	    qs: {access_token:token},
+	    method: 'POST',
+	    json: {
+		    recipient: {id:sender},
+		    message: messageData,
+	    }
+    }, function(error, response, body) {
+	    if (error) {
+		    console.log('Error sending messages: ', error)
+	    } else if (response.body.error) {
+		    console.log('Error: ', response.body.error)
+	    }
+    })
+}

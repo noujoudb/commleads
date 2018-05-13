@@ -34,16 +34,15 @@ app.use(bodyParser.json())
 app.get('/', function (req, res) {
 	res.send('Hello world, I am a chat bot')
 })
-
-
-// for Facebook verification
-/*app.get('/webhook/', function (req, res) {
+/*
+app.get('/webhook/', function (req, res) {
 	if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
 		res.send(req.query['hub.challenge'])
 	}
 	res.send('Error, wrong token')
 })
 */
+// Posting to the webhook and Facebook messenger application.
 app.post('/webhook/', function (req, res) {
     let messaging_events = req.body.entry[0].messaging
     for (let i = 0; i < messaging_events.length; i++) {
@@ -79,76 +78,80 @@ app.listen(app.get('port'), function() {
 	    } 
     } res . sendStatus
     ( 200 ) 
-}) const token = "EAACJ9zhci60BAFByZBjeGWqvq3IISlWdovFmRwZCTe2bmbpQNgleWK9KH78LY1XidY8J7PdQzrVr3soLrYZBlCxeBYi5Kw5KLx0pBQabZA6E0ZCtOejtrTii0sK06qVtcEXz91AKAaGGDLSMz8RpCWBliu0rhx7C8xC5HOgkROQZDZD"
+}) 
 
 const  token  =  processus . env . FB_PAGE_ACCESS_TOKEN
-
-function  sendTextMessage ( expéditeur , texte ) {
-     let messageData = {text : text}
-     demande ({ 
-	    url :  ' https://graph.facebook.com/v2.6/me/messages ' , 
-	    qs : {access_token : jeton}, 
-	    méthode :  ' POST ' , 
-		json : { 
-		    destinataire : {id : expéditeur}, 
-			message : messageData, 
-		} 
-	},function ( erreur , réponse , corps ) {
-		 if (erreur) {
-		     console . log ( ' envoi des messages d'erreur: ' , erreur) 
-		} else  si ( réponse . corps . erreur ) {
-		     console . log ( ' Erreur: ' , réponse . corps . erreur ) 
-	    } 
-    }) 
-}
-function sendGenericMessage(sender) {
-    let messageData = {
-	    "attachment": {
-		    "type": "template",
-		    "payload": {
-				"template_type": "generic",
-			    "elements": [{
-					"title": "First card",
-				    "subtitle": "Element #1 of an hscroll",
-				    "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
-				    "buttons": [{
-					    "type": "web_url",
-					    "url": "https://www.messenger.com",
-					    "title": "web url"
-				    }, {
-					    "type": "postback",
-					    "title": "Postback",
-					    "payload": "Payload for first element in a generic bubble",
-				    }],
-			    }, {
-				    "title": "Second card",
-				    "subtitle": "Element #2 of an hscroll",
-				    "image_url": "http://messengerdemo.parseapp.com/img/gearvr.png",
-				    "buttons": [{
-					    "type": "postback",
-					    "title": "Postback",
-					    "payload": "Payload for second element in a generic bubble",
-				    }],
-			    }]
-		    }
-	    }
-    }
+function sendTextMessage(sender, text) {
+    let messageData = { text:text }
     request({
-	    url: 'https://graph.facebook.com/v2.6/me/messages',
-	    qs: {access_token:token},
-	    method: 'POST',
-	    json: {
-		    recipient: {id:sender},
-		    message: messageData,
-	    }
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token:token},
+        method: 'POST',
+        json: {
+            recipient: {id:sender},
+            message: messageData,
+        }
     }, function(error, response, body) {
-	    if (error) {
-		    console.log('Error sending messages: ', error)
-	    } else if (response.body.error) {
-		    console.log('Error: ', response.body.error)
-	    }
+        if (error) {
+            console.log('Error sending messages: ', error)
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error)
+        }
     })
 }
+
+
+function sendMenuMessage(sender) {
+    let messageData = {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+                "elements": [{
+						"title": "SURE ",
+						"image_url":"https://botlist.co/system/BotList/Bot/logos/000/000/613/medium/Profile.png",
+						"buttons": [{
+							"type": "web_url",
+							"url": "http://surebot.io/",
+							"title": "Acces"
+						}]/*,
+					},{
+                    "title": "Adecco France",
+                    "image_url":"https://pbs.twimg.com/media/ClfMG1HWEAAl_EM.jpg",
+                    "buttons": [{
+                        "type": "web_url",
+                        "url": "https://www.messenger.com/t/adecco.france",
+                        "title": "Acces"
+                    }],
+                }, {
+                    "title": "Drift BOT",
+                    "image_url": "https://i.ytimg.com/vi/AHsspE09SvU/maxresdefault.jpg",
+                    "buttons": [{
+                        "type": "web_url",
+                        "url": "https://www.drift.com",
+                        "title": "Acces"
+                    }],*/
+                }]
+            }
+        }
+    }
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token:token},
+        method: 'POST',
+        json: {
+            recipient: {id:sender},
+            message: messageData,
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending messages: ', error)
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error)
+        }
+    })
+}
+
  app.post('/webhook/', function (req, res) {
     let messaging_events = req.body.entry[0].messaging
     for (let i = 0; i < messaging_events.length; i++) {
@@ -156,8 +159,8 @@ function sendGenericMessage(sender) {
       let sender = event.sender.id
       if (event.message && event.message.text) {
   	    let text = event.message.text
-  	    if (text === 'Generic') {
-  		    sendGenericMessage(sender)
+  	    if (text === 'Menu') {
+  		    sendMenuMessage(sender)
   		    continue
   	    }
   	    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))

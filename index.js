@@ -5,8 +5,9 @@
 const cool = require('cool-ascii-faces')
 const express = require('express')
 const path = require('path')
-const PORT = process.env.PORT || 5000
-
+const PORT = process.env.PORT || 8081
+ 
+ /*
 express()
   .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
@@ -15,15 +16,16 @@ express()
   .get('/cool', (req, res) => res.send(cool()))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
   
-  
+*/
   /****************************************************************************************************************************************/
 
-const express = require('express')
-const bodyParser = require('body-parser')
+console.log("Test"); 
+ 
+  const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 
-app.set('port', (process.env.PORT || 5000))
+app.set('port', (process.env.PORT || 8081))
 
 // Process application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: false}))
@@ -36,6 +38,8 @@ app.get('/', function (req, res) {
 	res.send('Hello world, I am a chat bot')
 })
 
+
+/*
 // for Facebook verification
 app.get('/webhook/', function (req, res) {
 	if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
@@ -49,10 +53,10 @@ app.listen(app.get('port'), function() {
 	console.log('running on port', app.get('port'))
 })
 
-
+*/
   /****************************************************************************************************************************************/
-  
- 
+  /*
+ //HEROKU new
   app.get('/times', (req, res) => {
   let result = ''
   const times = process.env.TIMES || 5
@@ -62,10 +66,11 @@ app.listen(app.get('port'), function() {
   res.send(result)
 })
 
+*/
 
   /****************************************************************************************************************************************/
  
- 
+ /*
  function sendGenericMessage(sender) {
     let messageData = {
 	    "attachment": {
@@ -114,3 +119,4 @@ app.listen(app.get('port'), function() {
 	    }
     })
 }
+*/

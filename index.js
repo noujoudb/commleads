@@ -51,7 +51,41 @@ app.listen(app.get('port'), function() {
 
 /****************/
   
-  
+ app . post ( ' / webhook / ' , fonction ( req , res ) {
+     laisser messaging_events =  req . body . entry [ 0 ]. message 
+    pour ( let i =  0 ; i <  messaging_events . longueur ; i ++ ) {
+	     let  event  =  req . corps . entrée [ 0 ].messagerie [i]
+	     laisser l' expéditeur =  événement . expéditeur . id 
+	    if ( événement . message  &&  événement . message . texte ) {
+		     let text =  événement . un message . texte 
+		    sendTextMessage (expéditeur, " Texte reçu, écho: "  +  texte . substring ( 0 , 200 )) 
+	    } 
+    } res . sendStatus
+    ( 200 ) 
+}) const token = "EAACJ9zhci60BAFByZBjeGWqvq3IISlWdovFmRwZCTe2bmbpQNgleWK9KH78LY1XidY8J7PdQzrVr3soLrYZBlCxeBYi5Kw5KLx0pBQabZA6E0ZCtOejtrTii0sK06qVtcEXz91AKAaGGDLSMz8RpCWBliu0rhx7C8xC5HOgkROQZDZD"
+
+const  token  =  processus . env . FB_PAGE_ACCESS_TOKEN
+
+function  sendTextMessage ( expéditeur , texte ) {
+     let messageData = {text : text}
+     demande ({ 
+	    url :  ' https://graph.facebook.com/v2.6/me/messages ' , 
+	    qs : {access_token : jeton}, 
+	    méthode :  ' POST ' , 
+		json : { 
+		    destinataire : {id : expéditeur}, 
+			message : messageData, 
+		} 
+	},function ( erreur , réponse , corps ) {
+		 if (erreur) {
+		     console . log ( ' envoi des messages d'erreur: ' , erreur) 
+		} else  si ( réponse . corps . erreur ) {
+		     console . log ( ' Erreur: ' , réponse . corps . erreur ) 
+	    } 
+    }) 
+}
+
+/************************************/ 
   
   //2
 app.get('/times', (req, res) => {

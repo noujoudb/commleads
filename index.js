@@ -1,6 +1,8 @@
 
 
 'use strict'
+
+//1
 const cool = require('cool-ascii-faces')
 const express = require('express')
 const path = require('path')
@@ -15,24 +17,37 @@ express()
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 
+  /********************/
+  const bodyParser = require('body-parser')
+const request = require('request')
+const app = express()
 
+app.set('port', (process.env.PORT || 8081))
 
-/*
-const cool = require('cool-ascii-faces')
-const express = require('express')
-const path = require('path')
-const PORT = process.env.PORT || 8081
- 
- 
-express()
-  .use(express.static(path.join(__dirname, 'public')))
-  .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
-  .get('/cool', (req, res) => res.send(cool()))
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+// Process application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended: false}))
+
+// Process application/json
+app.use(bodyParser.json())
+
+// Index route
+app.get('/', function (req, res) {
+	res.send('Hello world, I am a chat bot')
+})
+/****************/
   
-*/
+  
+  
+  //2
+app.get('/times', (req, res) => {
+  let result = ''
+  const times = process.env.TIMES || 5
+  for (i = 0; i < times; i++) {
+    result += i + ' '
+  }
+  res.send(result)
+})
+
   /****************************************************************************************************************************************/
 
 console.log("Test"); 
@@ -70,20 +85,6 @@ app.listen(app.get('port'), function() {
 })
 
 */
-  /****************************************************************************************************************************************/
-  /*
- //HEROKU new
-  app.get('/times', (req, res) => {
-  let result = ''
-  const times = process.env.TIMES || 5
-  for (i = 0; i < times; i++) {
-    result += i + ' '
-  }
-  res.send(result)
-})
-
-*/
-
   /****************************************************************************************************************************************/
  
  /*
